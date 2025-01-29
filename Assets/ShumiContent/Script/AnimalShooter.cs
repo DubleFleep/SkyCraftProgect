@@ -14,7 +14,7 @@ public class AnimalShooter : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true; // Отключаем физику до броска
+        rb.isKinematic = false; // Включаем физику
         mainCamera = Camera.main;
 
         if (lineRenderer != null)
@@ -26,15 +26,12 @@ public class AnimalShooter : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (rb.isKinematic) // Проверяем, можно ли тянуть
-        {
-            isDragging = true;
-            startPosition = transform.position;
+        isDragging = true;
+        startPosition = transform.position; // Запоминаем стартовую позицию
 
-            if (lineRenderer != null)
-            {
-                lineRenderer.enabled = true;
-            }
+        if (lineRenderer != null)
+        {
+            lineRenderer.enabled = true;
         }
     }
 
@@ -42,7 +39,6 @@ public class AnimalShooter : MonoBehaviour
     {
         if (isDragging)
         {
-            // Получаем позицию мыши в мировых координатах
             Vector3 mouseScreenPosition = Input.mousePosition;
             mouseScreenPosition.z = mainCamera.WorldToScreenPoint(startPosition).z; // Фиксируем глубину Z
 
@@ -51,20 +47,20 @@ public class AnimalShooter : MonoBehaviour
             // Ограничиваем движение только по X и Y, оставляя Z неизменным
             Vector3 dragVector = new Vector3(mouseWorldPosition.x - startPosition.x, mouseWorldPosition.y - startPosition.y, 0);
 
-            // Ограничиваем расстояние
+            // Ограничиваем расстояние натяжения
             if (dragVector.magnitude > maxDragDistance)
             {
                 dragVector = dragVector.normalized * maxDragDistance;
             }
 
-            // Перемещаем объект (Z остается неизменным)
             transform.position = startPosition + dragVector;
 
-            // Обновляем LineRenderer
+            // Обновляем LineRenderer - ТЕПЕРЬ ЛИНИЯ ПОКАЗЫВАЕТ НАПРАВЛЕНИЕ ПОЛЕТА
             if (lineRenderer != null)
             {
-                lineRenderer.SetPosition(0, startPosition);
-                lineRenderer.SetPosition(1, transform.position);
+                Vector3 flightDirection = startPosition - transform.position; // Вектор в сторону полета
+                lineRenderer.SetPosition(0, transform.position); // Начало линии - там, где объект
+                lineRenderer.SetPosition(1, transform.position + flightDirection * 1.5f); // Конец линии дальше в сторону полета
             }
         }
     }
@@ -74,11 +70,14 @@ public class AnimalShooter : MonoBehaviour
         if (isDragging)
         {
             isDragging = false;
+
+            // Включаем физику
             rb.isKinematic = false;
 
             // Вычисляем силу броска (игнорируем Z)
-            Vector3 force = new Vector3(startPosition.x - transform.position.x, startPosition.y - transform.position.y, 0).normalized * maxForce * Vector3.Distance(startPosition, transform.position);
+            Vector3 force = (startPosition - transform.position).normalized * maxForce * Vector3.Distance(startPosition, transform.position);
 
+            rb.linearVelocity = Vector3.zero; // Сбрасываем скорость перед броском
             rb.AddForce(force, ForceMode.Impulse);
 
             // Отключаем LineRenderer
