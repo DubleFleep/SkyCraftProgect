@@ -3,24 +3,38 @@ using UnityEngine;
 public class AnimalShooter : MonoBehaviour
 {
     public float maxForce = 10f; // Максимальная сила выстрела
-    public float maxDragDistance = 2f; // Максимальное расстояние, на которое можно тянуть животное
+    public float maxDragDistance = 2f; // Максимальное расстояние натяжения
+    public LineRenderer lineRenderer; // Линия прицеливания
 
     private bool isDragging = false;
     private Vector3 startPosition;
     private Rigidbody rb;
+    private Camera mainCamera;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true; // Отключаем физику, пока животное не выстрелено
+        rb.isKinematic = true; // Отключаем физику до броска
+        mainCamera = Camera.main;
+
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 2;
+            lineRenderer.enabled = false;
+        }
     }
 
     void OnMouseDown()
     {
-        if (rb.isKinematic) // Если животное ещё не выстрелено
+        if (rb.isKinematic) // Проверяем, можно ли тянуть
         {
             isDragging = true;
             startPosition = transform.position;
+
+            if (lineRenderer != null)
+            {
+                lineRenderer.enabled = true;
+            }
         }
     }
 
@@ -29,21 +43,29 @@ public class AnimalShooter : MonoBehaviour
         if (isDragging)
         {
             // Получаем позицию мыши в мировых координатах
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0; // Ограничиваем движение по оси Z
+            Vector3 mouseScreenPosition = Input.mousePosition;
+            mouseScreenPosition.z = mainCamera.WorldToScreenPoint(startPosition).z; // Фиксируем глубину Z
 
-            // Вычисляем направление и расстояние
-            Vector3 direction = (startPosition - mousePosition).normalized;
-            float distance = Vector3.Distance(startPosition, mousePosition);
+            Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+
+            // Ограничиваем движение только по X и Y, оставляя Z неизменным
+            Vector3 dragVector = new Vector3(mouseWorldPosition.x - startPosition.x, mouseWorldPosition.y - startPosition.y, 0);
 
             // Ограничиваем расстояние
-            distance = Mathf.Min(distance, maxDragDistance);
+            if (dragVector.magnitude > maxDragDistance)
+            {
+                dragVector = dragVector.normalized * maxDragDistance;
+            }
 
-            // Перемещаем животное
-            transform.position = startPosition - direction * distance;
+            // Перемещаем объект (Z остается неизменным)
+            transform.position = startPosition + dragVector;
 
-            // Отрисовка линии
-            Debug.DrawLine(startPosition, transform.position, Color.red);
+            // Обновляем LineRenderer
+            if (lineRenderer != null)
+            {
+                lineRenderer.SetPosition(0, startPosition);
+                lineRenderer.SetPosition(1, transform.position);
+            }
         }
     }
 
@@ -52,15 +74,18 @@ public class AnimalShooter : MonoBehaviour
         if (isDragging)
         {
             isDragging = false;
-
-            // Включаем физику
             rb.isKinematic = false;
 
-            // Вычисляем силу выстрела
-            Vector3 force = (startPosition - transform.position) * maxForce;
-            rb.AddForce(force, ForceMode.Impulse); // Применяем силу
+            // Вычисляем силу броска (игнорируем Z)
+            Vector3 force = new Vector3(startPosition.x - transform.position.x, startPosition.y - transform.position.y, 0).normalized * maxForce * Vector3.Distance(startPosition, transform.position);
+
+            rb.AddForce(force, ForceMode.Impulse);
+
+            // Отключаем LineRenderer
+            if (lineRenderer != null)
+            {
+                lineRenderer.enabled = false;
+            }
         }
     }
-
-    
 }
