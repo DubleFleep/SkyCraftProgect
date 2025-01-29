@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 79627696035368830, guid: de9e9b7d3b41df14d9d492760c3f5a3e, type: 3}
       propertyPath: nextTierAnimal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4980764229582714672, guid: db52def025660914cb8a3dfdb6db432f, type: 3}
     - target: {fileID: 271772892150190890, guid: de9e9b7d3b41df14d9d492760c3f5a3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

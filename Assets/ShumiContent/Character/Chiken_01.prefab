@@ -95,7 +95,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616527703117466000}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4b698751e898d774d8a679e4bf01d4fa, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -165,6 +165,9 @@ MonoBehaviour:
   maxForce: 10
   maxDragDistance: 3
   lineRenderer: {fileID: 7484416188696354708}
+  shakeFrequency: 40
+  shakeMaxAmplitude: 0.1
+  spinImpulse: 5
 --- !u!120 &7484416188696354708
 LineRenderer:
   serializedVersion: 2

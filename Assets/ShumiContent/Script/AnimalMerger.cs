@@ -21,16 +21,17 @@ public class AnimalMerger : MonoBehaviour
                 Vector3 mergePosition = (transform.position + collision.transform.position) / 2;
                 GameObject newAnimal = Instantiate(nextTierAnimal, mergePosition, Quaternion.identity);
 
-                // Настраиваем физику
+                // --- Настройка Rigidbody нового животного ---
                 Rigidbody rb = newAnimal.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
                     rb.isKinematic = false;
                     rb.linearVelocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
+                    rb.WakeUp(); // "Разбудить" Rigidbody, чтобы сразу реагировал на физику
                 }
 
-                // Инициализируем скрипт AnimalShooter, если есть
+                // --- Инициализация AnimalShooter, если есть ---
                 AnimalShooter shooter = newAnimal.GetComponent<AnimalShooter>();
                 if (shooter != null)
                 {
@@ -40,9 +41,7 @@ public class AnimalMerger : MonoBehaviour
             }
             else
             {
-                // Если нет следующего тира,
-                // можете оставить пустым (два животных просто уничтожаются)
-                // или сделать какую-нибудь другую логику (например, добавить очки, эффект и т.д.)
+                // Если нет следующего тира, просто уничтожаем оба животных
                 Debug.Log("Нет следующего тира. Уничтожаем обоих.");
             }
 
