@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5125102100778232268, guid: b4f26b5310ce34a4a99fbeb32a351e59, type: 3}
+      propertyPath: tier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125102100778232268, guid: b4f26b5310ce34a4a99fbeb32a351e59, type: 3}
+      propertyPath: nextTierAnimal
+      value: 
+      objectReference: {fileID: 7238618887021213557, guid: b4f26b5310ce34a4a99fbeb32a351e59, type: 3}
     - target: {fileID: 6381801605551514218, guid: b4f26b5310ce34a4a99fbeb32a351e59, type: 3}
       propertyPath: m_Mesh
       value: 

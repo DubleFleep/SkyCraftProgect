@@ -18,35 +18,39 @@ public class AnimalShooter : MonoBehaviour
     private Vector3 startPosition;
     private Rigidbody rb;
     private Camera mainCamera;
+    
+    
 
     // Сохраним dragVector, чтобы другие скрипты могли узнать направление броска
     public Vector3 currentDragVector { get; private set; } = Vector3.zero;
 
     // Инициализация (метод, если будем вызывать после Instantiate)
     public void Initialize()
+{
+    rb = GetComponent<Rigidbody>();
+    if (rb != null)
     {
-        rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true; // Пока не отпустили
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        mainCamera = Camera.main;
-
-        if (lineRenderer != null)
-        {
-            lineRenderer.positionCount = 2;
-            lineRenderer.enabled = false;
-        }
+        // Не сбрасывайте velocity, если хотите сохранить "импульс" от мерджа
+        rb.isKinematic = false; 
+        // Уберите/закомментируйте:
+        // rb.linearVelocity = Vector3.zero;
+        // rb.angularVelocity = Vector3.zero;
     }
+
+    mainCamera = Camera.main;
+    if (lineRenderer != null)
+    {
+        lineRenderer.positionCount = 2;
+        lineRenderer.enabled = false;
+    }
+}
+
 
     void Start()
     {
         Initialize();
     }
-
+    
     void OnMouseDown()
     {
         isDragging = true;
