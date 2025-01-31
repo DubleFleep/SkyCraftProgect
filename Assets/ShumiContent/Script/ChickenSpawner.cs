@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ChickenSpawner : MonoBehaviour
 {
-    public GameObject chickenPrefab; // Префаб курицы
-    public Vector3 spawnAreaCenter; // Центр области спавна
-    public Vector3 spawnAreaSize; // Размер области спавна
-    public int maxChickens = 4; // Максимальное количество куриц на сцене
+    public GameObject chickenPrefab;       // Префаб курицы
+    public Vector3 spawnAreaCenter;        // Центр области спавна
+    public Vector3 spawnAreaSize;          // Размер области спавна
+    public int maxChickens = 4;           // Максимальное количество куриц на сцене
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class ChickenSpawner : MonoBehaviour
                 SpawnChicken();
             }
 
-            // Ждем случайный интервал перед следующим спавном
+            // Ждём случайный интервал перед следующим спавном
             yield return new WaitForSeconds(Random.Range(1f, 3f));
         }
     }
@@ -50,7 +50,7 @@ public class ChickenSpawner : MonoBehaviour
             bool positionIsFar = true;
             foreach (GameObject chicken in GameObject.FindGameObjectsWithTag("Chicken"))
             {
-                if (Vector3.Distance(randomPosition, chicken.transform.position) < 1.5f) // Минимальное расстояние между курами
+                if (Vector3.Distance(randomPosition, chicken.transform.position) < 2.5f)
                 {
                     positionIsFar = false;
                     break;
@@ -66,6 +66,31 @@ public class ChickenSpawner : MonoBehaviour
         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
         // Создание курицы
-        Instantiate(chickenPrefab, randomPosition, randomRotation);
+        GameObject newChicken = Instantiate(chickenPrefab, randomPosition, randomRotation);
+
+        // (Необязательно) Сразу принудительно отключаем кинематику, если хотим
+        Rigidbody rb = newChicken.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false; // Выключаем кинематику прямо сейчас
+            rb.WakeUp();
+        }
+
+        // Запускаем корутину, чтобы в конце физического шага ещё раз насильно отключить кинематику
+        StartCoroutine(ForceDynamicNextFrame(newChicken));
+    }
+
+    // Корутина, чтобы гарантированно отключить кинематику после следующего физического шага
+    private IEnumerator ForceDynamicNextFrame(GameObject spawned)
+    {
+        yield return new WaitForFixedUpdate();
+
+        Rigidbody rb = spawned.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false; // Насильно отключаем кинематику
+            rb.WakeUp();
+            Debug.Log($"{spawned.name} → Forced isKinematic=false after next frame.");
+        }
     }
 }
