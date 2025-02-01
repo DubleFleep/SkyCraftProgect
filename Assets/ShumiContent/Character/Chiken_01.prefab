@@ -85,6 +85,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7484416188696354708}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7661580846802581053}
   m_SourcePrefab: {fileID: 100100000, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
 --- !u!1 &616527703117466000 stripped
 GameObject:
@@ -198,6 +201,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b76875b60fab0954eb94f23f75ef8d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scaleUpDuration: 0.1
+  scaleDownDuration: 0.2
+  scaleUpMultiplier: 1.5
+  scaleDownMultiplier: 0.5
 --- !u!120 &7484416188696354708
 LineRenderer:
   serializedVersion: 2
@@ -313,3 +320,23 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &-7661580846802581053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616527703117466000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b914ae7230c13704cae654a05440dd6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 7859184202819855117, guid: 5bb74abf62f4401458e817bb8cb7a60b, type: 3}
+  particleColor: {r: 0.31189927, g: 0.33533955, b: 0.4056604, a: 1}
+  particleCount: 5
+  explosionForce: 5
+  minSize: 0.1
+  maxSize: 5
+  minLifetime: 0.1
+  maxLifetime: 0.7

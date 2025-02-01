@@ -22,11 +22,11 @@ public class AnimalMerger : MonoBehaviour
                 Vector3 mergePosition = (transform.position + collision.transform.position) / 2;
                 GameObject newAnimal = Instantiate(nextTierAnimal, mergePosition, Quaternion.identity);
 
-                // Запускаем анимацию масштаба
-                ScaleAnimator scaleAnimator = newAnimal.GetComponent<ScaleAnimator>();
-                if (scaleAnimator != null)
+                // Запускаем эффект взрыва
+                ExplosionEffect explosionEffect = GetComponent<ExplosionEffect>();
+                if (explosionEffect != null)
                 {
-                    scaleAnimator.StartAnimation();
+                    explosionEffect.PlayExplosion(mergePosition);
                 }
 
                 // Передаём скорость (импульс) от более быстрого животного
