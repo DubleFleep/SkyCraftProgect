@@ -5,6 +5,7 @@ public class AnimalMerger : MonoBehaviour
     public int tier = 1; // Уровень животного
     public GameObject nextTierAnimal; // Префаб следующего уровня
     public float speedMultiplier = 0.8f; // Множитель для уменьшения скорости
+
     private bool isMerging = false; // Флаг, чтобы предотвратить дублирование
 
     void OnCollisionEnter(Collision collision)
@@ -65,6 +66,13 @@ public class AnimalMerger : MonoBehaviour
                 if (scaleAnimator != null)
                 {
                     scaleAnimator.StartAnimation();
+                }
+
+                // Проигрываем звук появления нового животного
+                AudioManager audioManager = FindObjectOfType<AudioManager>();
+                if (audioManager != null)
+                {
+                    audioManager.PlayNewAnimalSoundEffect();
                 }
             }
             else
