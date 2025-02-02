@@ -81,13 +81,13 @@ PrefabInstance:
       addedObject: {fileID: 3160084515417397033}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6991213346928855120}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7484416188696354708}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7661580846802581053}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6991213346928855120}
   m_SourcePrefab: {fileID: 100100000, guid: 646e97d7cdf935d49aa0aa91f029c314, type: 3}
 --- !u!1 &616527703117466000 stripped
 GameObject:
@@ -189,22 +189,6 @@ MonoBehaviour:
   tier: 1
   nextTierAnimal: {fileID: 8390382907875364146, guid: 4ec4d6627e6fca2408e00f6d340dd3b6, type: 3}
   speedMultiplier: 0.3
---- !u!114 &6991213346928855120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 616527703117466000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b76875b60fab0954eb94f23f75ef8d99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleUpDuration: 0.1
-  scaleDownDuration: 0.2
-  scaleUpMultiplier: 1.5
-  scaleDownMultiplier: 0.5
 --- !u!120 &7484416188696354708
 LineRenderer:
   serializedVersion: 2
@@ -340,3 +324,19 @@ MonoBehaviour:
   maxSize: 5
   minLifetime: 0.1
   maxLifetime: 0.7
+--- !u!114 &6991213346928855120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616527703117466000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b76875b60fab0954eb94f23f75ef8d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleUpDuration: 0.1
+  scaleDownDuration: 0.2
+  scaleUpMultiplier: 1.5
+  scaleDownMultiplier: 0.5

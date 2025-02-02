@@ -59,6 +59,13 @@ public class AnimalMerger : MonoBehaviour
                     shooter.Initialize(); // Инициализируем AnimalShooter
                     shooter.enabled = true; // Включаем AnimalShooter
                 }
+
+                // Запускаем анимацию масштабирования
+                ScaleAnimator scaleAnimator = newAnimal.GetComponent<ScaleAnimator>();
+                if (scaleAnimator != null)
+                {
+                    scaleAnimator.StartAnimation();
+                }
             }
             else
             {
